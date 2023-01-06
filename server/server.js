@@ -64,6 +64,14 @@ io.on('connection',(socket)=>{
         disconnectHandler(socket);
     })
 
+    socket.on('conn-signal',data=>{
+        signalHandler(data,socket);
+    })
+
+    socket.on('conn-init',data=>{
+        initializeConnectionHandler(data,socket);
+    })
+
 })
 
 
@@ -134,6 +142,23 @@ const joinRoomhandler =(data,socket)=>{
     //add new User to Connected user array;
     connectedUsers = [...connectedUsers,newUser];
 
+
+    //emit to all users which are already in this room to prepare peer connection 
+    room.connectedUsers.forEach(user => {
+        
+        if(user.socketId !==socket.id){
+            const data ={
+                connUserSocketId:socket.id
+            }
+
+            io.to(user.socketId).emit('conn-prepare',data);
+
+        }
+
+    });
+
+
+
     io.to(roomId).emit('room-update',{connectedUsers:room.connectedUsers});
 
 
@@ -156,12 +181,16 @@ const disconnectHandler =(socket)=>{
         //Closing Room After All Users are getting exit;
 
         if(room.connectedUsers.length > 0){
+            //Emit to all users which are still in the room that user disconnected
+
+            io.to(room.id).emit('user-disconnected',{socketId:socket.id});
             io.to(room.id).emit('room-update',{
                 connectedUsers:room.connectedUsers
             });
+            
         }
         else{
-            rooms = room.filter((r)=>r.id!=room.id);
+            rooms = rooms.filter((r)=>r.id!=room.id);
         }
 
 
@@ -170,7 +199,25 @@ const disconnectHandler =(socket)=>{
 
 }
 
+const signalHandler =(data,socket)=>{
 
+    const {connUserSocketId,signal} =data;
+    const signalingData = {signal,connUserSocketId:socket.id};
+    io.to(connUserSocketId).emit('conn-signal',signalingData);
+
+
+
+}
+
+
+//information from clients which are already in room that They have prepared for incoming conncetion
+
+const initializeConnectionHandler =(data,socket)=>{
+    const {connUserSocketId} = data;
+
+    const initData = {connUserSocketId:socket.id};
+    io.to(connUserSocketId).emit('conn-init',initData);
+}
 
 
 server.listen(PORT, () => {
