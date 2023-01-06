@@ -1,9 +1,39 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import ChatSection from './ChatSection/ChatSection';
+import ParticipantSection from './ParticipantSection/ParticipantSection';
+import RoomLabel from './RoomLabel';
+import VideoSection from './VideoSection/VideoSection';
+import * as webRTCHandler from '../../utils/webRTCHandler';
 
-const RoomPage = () => {
+import './RoomPage.css';
+import { connect } from 'react-redux';
+import Overlay from './Overlay';
+const RoomPage = (props) => {
+  const { roomId,identity,isRoomHost,showOverlay } = props;
+
+  useEffect(()=>{
+    webRTCHandler.getLocalPreviewAndInitRoomConnection(isRoomHost,identity,roomId);
+  },[])
+
+
+
   return (
-    <div>Hello here is the RoomPage</div>
+    <>
+      <div className='room_container'>
+        <ParticipantSection />
+        <VideoSection />
+        <ChatSection />
+        <RoomLabel roomId={roomId} />
+        {showOverlay?<Overlay/>:""}
+      </div>
+    </>
   )
 }
 
-export default RoomPage
+const mapStateToProps = (state) => {
+  return {
+    ...state
+  }
+}
+
+export default connect(mapStateToProps,)(RoomPage);

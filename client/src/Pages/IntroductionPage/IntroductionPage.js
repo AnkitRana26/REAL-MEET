@@ -1,5 +1,5 @@
 import React from 'react'
-import ConnectingButtons from '../../Components/ConnectingButtons'
+import ConnectingButtons from './ConnectingButtons'
 import logo from '../../resources/images/logo.png'
 import './IntroductionPage.css'
 const IntroductionPage = (props) => {
