@@ -3,7 +3,8 @@ const http = require('http');
 const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');
 const twilio = require('twilio');
-
+require('dotenv').config();
+const data = process.env;
 
 
 
@@ -40,7 +41,11 @@ app.get('/api/room-exists/:roomId', (req, res) => {
 
 })
 
+app.get('/api/check',(req,res)=>{
+    
+    res.send({"status":"allOkay"});
 
+})
 
 const io = require('socket.io')(server, {
     cors: {
@@ -151,7 +156,7 @@ const joinRoomhandler =(data,socket)=>{
 
     //emit to all users which are already in this room to prepare peer connection 
     room.connectedUsers.forEach(user => {
-        
+         
         if(user.socketId !==socket.id){
             const data ={
                 connUserSocketId:socket.id

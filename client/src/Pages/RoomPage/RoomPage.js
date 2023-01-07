@@ -11,6 +11,12 @@ import Overlay from './Overlay';
 const RoomPage = (props) => {
   const { roomId,identity,isRoomHost,showOverlay,connectOnlyWithAudio } = props;
 
+
+  if(!isRoomHost&&!roomId){
+    const siteUrl = window.location.origin;
+    window.location.href = siteUrl;
+  }
+
   useEffect(()=>{
     webRTCHandler.getLocalPreviewAndInitRoomConnection(isRoomHost,identity,roomId,connectOnlyWithAudio);
   },[])

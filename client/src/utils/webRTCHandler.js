@@ -3,6 +3,7 @@ import { store } from '../store/store';
 import * as wss from './wss'
 import Peer from 'simple-peer';
 
+
 const defaultConstraints = {
     audio: true,
     video: {
@@ -11,17 +12,18 @@ const defaultConstraints = {
     }
 }
 
-const onlyAudioConstraints ={
-    audio:true,
-    video:false
+const onlyAudioConstraints = {
+    audio: true,
+    video: false
 }
 
 let localStream;
 
 
-export const getLocalPreviewAndInitRoomConnection = async (isRoomHost, identity, roomId = null,onlyAudio) => {
+export const getLocalPreviewAndInitRoomConnection = async (isRoomHost, identity, roomId = null, onlyAudio) => {
 
-    const constraints = onlyAudio ?onlyAudioConstraints :defaultConstraints;
+
+    const constraints = onlyAudio ? onlyAudioConstraints : defaultConstraints;
 
     navigator.mediaDevices.getUserMedia(constraints).then(stream => {
         console.log(stream, "Sucess");
@@ -31,7 +33,7 @@ export const getLocalPreviewAndInitRoomConnection = async (isRoomHost, identity,
         //dispatching Action to Stop Overlay
         store.dispatch(setShowOverlay(false));
 
-        isRoomHost ? wss.createNewRoom(identity,onlyAudio) : wss.joinRoom(identity, roomId,onlyAudio);
+        isRoomHost ? wss.createNewRoom(identity, onlyAudio) : wss.joinRoom(identity, roomId, onlyAudio);
     }).catch(err => {
         console.log(`Error Occurred when trying to get an access to local Stream`);
         console.log(err.message);
@@ -48,13 +50,37 @@ let peers = {}
 let streams = []
 
 const getConfiguration = () => {
+
+
+
     return {
         iceServers: [
             {
                 urls: 'stun:stun.l.google.com:19302'
+            },
+            {
+                urls: "stun:relay.metered.ca:80",
+            },
+            {
+                urls: "turn:relay.metered.ca:80",
+                username: process.env.REACT_APP_TURN_USERNAME,
+                credential: process.env.REACT_APP_TURN_CREDINTIALS,
+            },
+            {
+                urls: "turn:relay.metered.ca:443",
+                username: process.env.REACT_APP_TURN_USERNAME,
+                credential: process.env.REACT_APP_TURN_CREDINTIALS,
+            },
+            {
+                urls: "turn:relay.metered.ca:443?transport=tcp",
+                username: process.env.REACT_APP_TURN_USERNAME,
+                credential: process.env.REACT_APP_TURN_CREDINTIALS,
             }
         ]
     }
+
+
+
 }
 
 
@@ -85,11 +111,11 @@ export const preparenewPeerConnection = (connUserSocketId, isInitiator) => {
 
     peers[connUserSocketId].on('stream', (stream) => {
         console.log('New Stream came');
-        addStream(stream, connUserSocketId);
         streams = [...streams, stream];
+        addStream(stream, connUserSocketId);
     })
-    
-    
+
+
 
 }
 
@@ -146,10 +172,10 @@ const showLocalVideoPreview = (stream) => {
 
     }
 
-    if(store.getState().connectOnlyWithAudio){
+    if (store.getState().connectOnlyWithAudio) {
         videoContainer.appendChild(getAudioOnlyLabel(store.getState().identity));
     }
-    else{
+    else {
         videoContainer.appendChild(videoElement);
 
     }
@@ -188,28 +214,29 @@ const addStream = (stream, connUserSocketId) => {
 
     //check if we have connected with audio
     const participants = store.getState().participants;
-    const participant = participants.find(p=>p.socketId===connUserSocketId);
-
-    if(participant?.onlyAudio){
+    const participant = participants.find(p => p.socketId === connUserSocketId);
+    // console.log(participant);
+    if (participant?.onlyAudio) {
         videoContainer.appendChild(getAudioOnlyLabel(participant.identity));
+    } else {
+        videoContainer.style.position = "static";
     }
-    else{
 
-        videosContainer.appendChild(videoContainer);
-    }
+    videosContainer.appendChild(videoContainer);
+
 
 
 
 
 }
 
-const getAudioOnlyLabel = (name)=>{
+const getAudioOnlyLabel = (name) => {
     const labelContainer = document.createElement('div');
     labelContainer.classList.add('label_only_audio_container');
 
     const label = document.createElement('p');
     label.classList.add('label_only_audio_text');
-    label.innerHTML=name;
+    label.innerHTML = name;
 
     labelContainer.appendChild(label);
     return labelContainer;
@@ -242,7 +269,7 @@ export const toggleScreenShare = (isScreenSharingActive, screenSharingStream = n
 
 
 
-} 
+}
 
 const switchVideoTracks = (stream) => {
 
@@ -269,26 +296,26 @@ const switchVideoTracks = (stream) => {
 
 /////////////////////////////////////////////////Messages//////////////////////////////////
 
-const appendNewMessage =(messageData)=>{
+const appendNewMessage = (messageData) => {
     const messages = store.getState().messages;
-    store.dispatch(setMessage([...messages,messageData]));
+    store.dispatch(setMessage([...messages, messageData]));
 }
 
 
-export const sendMessageUsingDataChannel = (message)=>{
-     //append this message locally
+export const sendMessageUsingDataChannel = (message) => {
+    //append this message locally
     const identity = store.getState().identity;
 
-    const localMessageData ={
-        content:message,
+    const localMessageData = {
+        content: message,
         identity,
-        messageCreatedByMe:true
+        messageCreatedByMe: true
     }
 
     appendNewMessage(localMessageData);
 
-    const messageData ={
-        content:message,
+    const messageData = {
+        content: message,
         identity
     }
 
