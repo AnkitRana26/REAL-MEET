@@ -1,4 +1,4 @@
-import { setShowOverlay } from '../store/action';
+import { setMessage, setShowOverlay } from '../store/action';
 import { store } from '../store/store';
 import * as wss from './wss'
 import Peer from 'simple-peer';
@@ -11,12 +11,19 @@ const defaultConstraints = {
     }
 }
 
+const onlyAudioConstraints ={
+    audio:true,
+    video:false
+}
+
 let localStream;
 
 
-export const getLocalPreviewAndInitRoomConnection = async (isRoomHost, identity, roomId = null) => {
+export const getLocalPreviewAndInitRoomConnection = async (isRoomHost, identity, roomId = null,onlyAudio) => {
 
-    navigator.mediaDevices.getUserMedia(defaultConstraints).then(stream => {
+    const constraints = onlyAudio ?onlyAudioConstraints :defaultConstraints;
+
+    navigator.mediaDevices.getUserMedia(constraints).then(stream => {
         console.log(stream, "Sucess");
         localStream = stream;
         showLocalVideoPreview(localStream);
@@ -24,7 +31,7 @@ export const getLocalPreviewAndInitRoomConnection = async (isRoomHost, identity,
         //dispatching Action to Stop Overlay
         store.dispatch(setShowOverlay(false));
 
-        isRoomHost ? wss.createNewRoom(identity) : wss.joinRoom(identity, roomId);
+        isRoomHost ? wss.createNewRoom(identity,onlyAudio) : wss.joinRoom(identity, roomId,onlyAudio);
     }).catch(err => {
         console.log(`Error Occurred when trying to get an access to local Stream`);
         console.log(err.message);
@@ -50,6 +57,9 @@ const getConfiguration = () => {
     }
 }
 
+
+const messengerChannel = 'messenger';
+
 export const preparenewPeerConnection = (connUserSocketId, isInitiator) => {
     console.log('hello');
     const configuration = getConfiguration();
@@ -71,11 +81,15 @@ export const preparenewPeerConnection = (connUserSocketId, isInitiator) => {
 
     })
 
+
+
     peers[connUserSocketId].on('stream', (stream) => {
         console.log('New Stream came');
         addStream(stream, connUserSocketId);
         streams = [...streams, stream];
     })
+    
+    
 
 }
 
@@ -132,7 +146,14 @@ const showLocalVideoPreview = (stream) => {
 
     }
 
-    videoContainer.appendChild(videoElement);
+    if(store.getState().connectOnlyWithAudio){
+        videoContainer.appendChild(getAudioOnlyLabel(store.getState().identity));
+    }
+    else{
+        videoContainer.appendChild(videoElement);
+
+    }
+
     videosContainer.appendChild(videoContainer);
 }
 
@@ -163,9 +184,35 @@ const addStream = (stream, connUserSocketId) => {
     })
 
     videoContainer.appendChild(videoElement);
-    videosContainer.appendChild(videoContainer);
 
 
+    //check if we have connected with audio
+    const participants = store.getState().participants;
+    const participant = participants.find(p=>p.socketId===connUserSocketId);
+
+    if(participant?.onlyAudio){
+        videoContainer.appendChild(getAudioOnlyLabel(participant.identity));
+    }
+    else{
+
+        videosContainer.appendChild(videoContainer);
+    }
+
+
+
+
+}
+
+const getAudioOnlyLabel = (name)=>{
+    const labelContainer = document.createElement('div');
+    labelContainer.classList.add('label_only_audio_container');
+
+    const label = document.createElement('p');
+    label.classList.add('label_only_audio_text');
+    label.innerHTML=name;
+
+    labelContainer.appendChild(label);
+    return labelContainer;
 }
 
 
@@ -216,6 +263,38 @@ const switchVideoTracks = (stream) => {
             }
         }
     }
+
+
+}
+
+/////////////////////////////////////////////////Messages//////////////////////////////////
+
+const appendNewMessage =(messageData)=>{
+    const messages = store.getState().messages;
+    store.dispatch(setMessage([...messages,messageData]));
+}
+
+
+export const sendMessageUsingDataChannel = (message)=>{
+     //append this message locally
+    const identity = store.getState().identity;
+
+    const localMessageData ={
+        content:message,
+        identity,
+        messageCreatedByMe:true
+    }
+
+    appendNewMessage(localMessageData);
+
+    const messageData ={
+        content:message,
+        identity
+    }
+
+    const stringifiedMessageData = JSON.stringify(messageData);
+
+    wss.sendDataToConnectedUser(stringifiedMessageData);
 
 
 }

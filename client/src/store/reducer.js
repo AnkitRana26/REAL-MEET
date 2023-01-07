@@ -8,7 +8,8 @@ const initialState ={
     roomId:null,
     identity:null,
     showOverlay:true,
-    participants:[]
+    participants:[],
+    messages:[]
 }
 
 const reducer = (state=initialState,action)=>{
@@ -49,6 +50,12 @@ const reducer = (state=initialState,action)=>{
             return {
                 ...state,
                 participants:action.participants
+            }
+
+        case Actions.SET_MESSAGES:
+            return {
+                ...state,
+                messages:action.messages
             }
         default :
         return state;

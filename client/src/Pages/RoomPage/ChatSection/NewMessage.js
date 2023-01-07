@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import SendMessageButton from '../../../resources/images/sendMessageButton.svg'
-
+import * as webRTCHandler from '../../../utils/webRTCHandler'
 const NewMessage = () => {
     const [message, setMessage] = useState('');
     
@@ -22,10 +22,10 @@ const NewMessage = () => {
     const sendMessage =()=>{
         if(message.length > 0){
             console.log("Sending Messages To Other User");
-            
+            webRTCHandler.sendMessageUsingDataChannel(message);
+            setMessage('')
         }
         
-        setMessage('')
     }
     return (
         <div className='new_message_container'>

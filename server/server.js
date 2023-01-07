@@ -72,6 +72,10 @@ io.on('connection',(socket)=>{
         initializeConnectionHandler(data,socket);
     })
 
+    socket.on('mssg-sent',data=>{
+        sendMessageHandler(data,socket);
+    })
+
 })
 
 
@@ -81,7 +85,7 @@ io.on('connection',(socket)=>{
 const createNewRoomHandler =(data,socket)=>{
     console.log(`host is creating new room` );
     console.log(data);
-    const {identity} = data;
+    const {identity,onlyAudio} = data;
 
     const roomId = uuidv4();
 
@@ -90,7 +94,8 @@ const createNewRoomHandler =(data,socket)=>{
         identity,
         id:uuidv4(),
         socketId:socket.id,
-        roomId
+        roomId,
+        onlyAudio
     }
 
     //Push That user to Connected Users
@@ -123,12 +128,13 @@ const createNewRoomHandler =(data,socket)=>{
 
 const joinRoomhandler =(data,socket)=>{
 
-    const {identity,roomId} = data;
+    const {identity,roomId,onlyAudio} = data;
     const newUser ={
         identity,
         id:uuidv4(),
         socketId:socket.id,
-        roomId
+        roomId,
+        onlyAudio
     }
 
     //Join Room as User which just is trying to join room passing room id
@@ -218,6 +224,29 @@ const initializeConnectionHandler =(data,socket)=>{
     const initData = {connUserSocketId:socket.id};
     io.to(connUserSocketId).emit('conn-init',initData);
 }
+
+
+const sendMessageHandler =(data,socket)=>{
+
+    const user = connectedUsers.find(u=>u.socketId==socket.id);
+    
+    if(user){
+        const room = rooms.find(r=>r.id==user.roomId);
+        console.log(room);
+        room.connectedUsers.forEach(e=>{
+            if(e.socketId!==socket.id){
+                io.to(e.socketId).emit('message-recieved',data);
+            }
+        })
+
+
+    }
+
+
+
+}
+
+
 
 
 server.listen(PORT, () => {

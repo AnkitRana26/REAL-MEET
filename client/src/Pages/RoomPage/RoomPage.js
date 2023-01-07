@@ -9,10 +9,10 @@ import './RoomPage.css';
 import { connect } from 'react-redux';
 import Overlay from './Overlay';
 const RoomPage = (props) => {
-  const { roomId,identity,isRoomHost,showOverlay } = props;
+  const { roomId,identity,isRoomHost,showOverlay,connectOnlyWithAudio } = props;
 
   useEffect(()=>{
-    webRTCHandler.getLocalPreviewAndInitRoomConnection(isRoomHost,identity,roomId);
+    webRTCHandler.getLocalPreviewAndInitRoomConnection(isRoomHost,identity,roomId,connectOnlyWithAudio);
   },[])
 
 

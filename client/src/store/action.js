@@ -6,7 +6,8 @@ const Actions ={
     SET_IDENTITY:'SET_IDENTITY',
     SET_ROOM_ID:'SET_ROOM_ID',
     SET_SHOW_OVERLAY :'SET_SHOW_OVERLAY'  ,
-    SET_PARTICIPANTS:'SET_PARTICIPANTS'
+    SET_PARTICIPANTS:'SET_PARTICIPANTS',
+    SET_MESSAGES:'SET_MESSAGES'
 }
 
 
@@ -56,6 +57,13 @@ export const setParticipants =(participants)=>{
     return {
         type:Actions.SET_PARTICIPANTS,
         participants
+    }
+}
+
+export const setMessage =(messages) =>{
+    return {
+        type:Actions.SET_MESSAGES,
+        messages
     }
 }
 

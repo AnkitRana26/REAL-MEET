@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import { setParticipants, setRoomId } from '../store/action';
+import { setMessage, setParticipants, setRoomId } from '../store/action';
 import { store } from '../store/store';
 import * as webRTCHandler from './webRTCHandler';
 
@@ -47,23 +47,31 @@ export const connectWithSocketIOServer =()=>{
         webRTCHandler.removePeerConnection(data);
     })
 
+    socket.on('message-recieved',data=>{
+        const messages = store.getState().messages;
+        let newMessage = JSON.parse(data);
+        store.dispatch(setMessage([...messages,newMessage]));
+    })
+
 }
 
 
-export const createNewRoom =(identity)=>{
+export const createNewRoom =(identity,onlyAudio)=>{
     //Emit an event to server that we would like to create new Room
     const data ={
-        identity
+        identity,
+        onlyAudio
     }
     socket.emit('create-new-room',data);
 }
 
 
-export const joinRoom =(identity,roomId)=>{
+export const joinRoom =(identity,roomId,onlyAudio)=>{
     //Emit an event to server that we would like to join a room
     const data ={
         identity,
-        roomId
+        roomId,
+        onlyAudio
     }
 
     socket.emit('join-room',data);
@@ -75,5 +83,12 @@ export const joinRoom =(identity,roomId)=>{
 export const signalPeerData =(data)=>{
 
     socket.emit('conn-signal',data); 
+
+}
+
+
+export const sendDataToConnectedUser =(data)=>{
+    socket.emit('mssg-sent',data);
+    
 
 }
