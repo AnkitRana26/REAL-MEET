@@ -1,10 +1,10 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const Button =({buttonText,cancelButton=false,onClickHandler})=>{
-    const buttonClass = cancelButton ? 'join_room_cancel_button' : 'join_room_success_button';
+const Button =({buttonText,cancelButton=false,onClickHandler,styles})=>{
+    
     return (
-        <button onClick={onClickHandler} className={buttonClass}>
+        <button style={{...styles}} className='joinButtons' onClick={onClickHandler} >
             {buttonText}
         </button>
     )
@@ -21,8 +21,8 @@ const JoinRoomButton = ({ handleJoinRoom, isRoomHost }) => {
 
     return (
         <div className='join_room_buttons_container'>
-            <Button buttonText={successButtonText} onClickHandler={handleJoinRoom}/>
-            <Button buttonText={'Cancel'} cancelButton onClickHandler={pushToIntroductionPage}/>
+            <Button styles={{ backgroundColor: 'green', color: 'white', fontSize: '20px', padding: '15px', width: '50%', border: 'none', outline: 'none', boxShadow: '0 0 3px white', marginTop: '5%' }} buttonText={successButtonText} onClickHandler={handleJoinRoom}/>
+            <Button styles={{ backgroundColor: '#5dbea3', color: 'white', fontSize: '20px', padding: '15px', width: '50%', border: 'none', outline: 'none', boxShadow: '0 0 3px white', marginTop: '5%' }}buttonText={'Cancel'} cancelButton onClickHandler={pushToIntroductionPage}/>
         </div>
     )
 }

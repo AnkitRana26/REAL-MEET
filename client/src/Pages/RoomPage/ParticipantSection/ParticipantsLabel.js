@@ -1,10 +1,11 @@
+import { Box, Typography } from '@mui/material'
 import React from 'react'
 
 const ParticipantsLabel = () => {
   return (
-    <div className='participants_label_container'>
-        <p className='participants_label_paragraph'>Participants</p>
-    </div>
+    <Box sx={{backgroundColor:'#121b20'}}>
+          <Typography sx={{backgroundColor:'#121b20',fontWeight:'bold'}} variant='h6' p='5px' textAlign='center' mt='3%'  borderBottom='1px solid white' style={{color:"white"}}>Participants</Typography>
+    </Box>
   )
 }
 

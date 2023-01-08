@@ -112,6 +112,7 @@ export const preparenewPeerConnection = (connUserSocketId, isInitiator) => {
     peers[connUserSocketId].on('stream', (stream) => {
         console.log('New Stream came');
         streams = [...streams, stream];
+        let identity;
         addStream(stream, connUserSocketId);
     })
 
@@ -158,14 +159,17 @@ export const removePeerConnection = (data) => {
 ///////////////////////////////////////////// UI Videos ///////////////////////////////////////////////////////
 
 const showLocalVideoPreview = (stream) => {
-    const videosContainer = document.getElementById('videos_portal');
-    videosContainer.classList.add('videos_portal_styles');
+    const videosContainer = document.getElementById('videoDisplay');
+    // videosContainer.classList.add('videos_portal_styles');
     const videoContainer = document.createElement('div');
     videoContainer.classList.add('video_track_container');
     const videoElement = document.createElement('video');
     videoElement.autoplay = true;
     videoElement.muted = true;
     videoElement.srcObject = stream;
+    const userName = document.createElement('p');
+    userName.innerText= store.getState().identity;
+    userName.className='userNameShow'
 
     videoElement.onloadedmetadata = () => {
         videoElement.play();
@@ -173,11 +177,10 @@ const showLocalVideoPreview = (stream) => {
     }
 
     if (store.getState().connectOnlyWithAudio) {
-        videoContainer.appendChild(getAudioOnlyLabel(store.getState().identity));
+        videoContainer.append(getAudioOnlyLabel(store.getState().identity));
     }
     else {
-        videoContainer.appendChild(videoElement);
-
+        videoContainer.append(videoElement,userName);
     }
 
     videosContainer.appendChild(videoContainer);
@@ -185,9 +188,19 @@ const showLocalVideoPreview = (stream) => {
 
 
 const addStream = (stream, connUserSocketId) => {
+
+    //check if we have connected with audio
+    const participants = store.getState().participants;
+    const participant = participants.find(p => p.socketId === connUserSocketId);
+
+
     //display incoming stream
-    const videosContainer = document.getElementById('videos_portal');
+    const videosContainer = document.getElementById('videoDisplay');
     const videoContainer = document.createElement('div');
+    const userName = document.createElement('p');
+    userName.innerText= participant.identity;
+    
+    userName.className='userNameShow'
     videoContainer.id = connUserSocketId;
     videoContainer.classList.add('video_track_container');
     const videoElement = document.createElement('video');
@@ -209,17 +222,14 @@ const addStream = (stream, connUserSocketId) => {
         }
     })
 
-    videoContainer.appendChild(videoElement);
 
 
-    //check if we have connected with audio
-    const participants = store.getState().participants;
-    const participant = participants.find(p => p.socketId === connUserSocketId);
+
     // console.log(participant);
     if (participant?.onlyAudio) {
         videoContainer.appendChild(getAudioOnlyLabel(participant.identity));
     } else {
-        videoContainer.style.position = "static";
+        videoContainer.append(videoElement,userName);
     }
 
     videosContainer.appendChild(videoContainer);
@@ -231,15 +241,14 @@ const addStream = (stream, connUserSocketId) => {
 }
 
 const getAudioOnlyLabel = (name) => {
-    const labelContainer = document.createElement('div');
-    labelContainer.classList.add('label_only_audio_container');
+    
 
     const label = document.createElement('p');
     label.classList.add('label_only_audio_text');
     label.innerHTML = name;
 
-    labelContainer.appendChild(label);
-    return labelContainer;
+    
+    return label;
 }
 
 

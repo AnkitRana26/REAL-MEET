@@ -10,7 +10,7 @@ const JoinRoomTitle = ({ isRoomHost }) => {
     return (
         
             // 
-        <Typography fontSize='40px' mt='5%' textAlign='center' color='white' fontFamily={`'Black Ops One', cursive`}>{titleText}</Typography>
+        <Typography fontSize='40px' mt='8%' textAlign='center' color='white' mb='5%' fontFamily={`'Black Ops One', cursive`}>{titleText}</Typography>
     )
 }
 

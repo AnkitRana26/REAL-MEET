@@ -8,6 +8,7 @@ import * as webRTCHandler from '../../utils/webRTCHandler';
 import './RoomPage.css';
 import { connect } from 'react-redux';
 import Overlay from './Overlay';
+import { Box } from '@mui/material';
 const RoomPage = (props) => {
   const { roomId,identity,isRoomHost,showOverlay,connectOnlyWithAudio } = props;
 
@@ -25,13 +26,13 @@ const RoomPage = (props) => {
 
   return (
     <>
-      <div className='room_container'>
+      <Box display='grid' gridTemplateColumns='20% 60% 20%'>
         <ParticipantSection />
         <VideoSection />
         <ChatSection />
         <RoomLabel roomId={roomId} />
         {showOverlay?<Overlay/>:""}
-      </div>
+      </Box>
     </>
   )
 }

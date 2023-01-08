@@ -21,10 +21,10 @@ const IntroductionPage = (props) => {
 
   const handleDragStart = (e) => e.preventDefault();
   const items = [
-    <div><img style={{ display: 'block', margin: 'auto', height: '450px', width: '450px',borderRadius:'50%' }} src="https://i.pinimg.com/originals/50/83/e0/5083e0a2a7dcaae07c142e8b87036a27.gif" onDragStart={handleDragStart} role="presentation" /></div>,
     <div><img style={{ display: 'block', margin: 'auto', height: '450px', width: '450px' }} src="https://www.gstatic.com/meet/user_edu_get_a_link_light_90698cd7b4ca04d3005c962a3756c42d.svg" onDragStart={handleDragStart} role="presentation" /></div>,
     <div><img style={{ display: 'block', margin: 'auto', height: '450px', width: '450px' }} src="https://www.gstatic.com/meet/user_edu_scheduling_light_b352efa017e4f8f1ffda43e847820322.svg" onDragStart={handleDragStart} role="presentation" /></div>,
     <div><img style={{ display: 'block', margin: 'auto', height: '450px', width: '450px' }} src="https://www.gstatic.com/meet/user_edu_safety_light_e04a2bbb449524ef7e49ea36d5f25b65.svg" onDragStart={handleDragStart} role="presentation" /></div>,
+    <div><img style={{ display: 'block', margin: 'auto', height: '450px', width: '450px',borderRadius:'50%' }} src="https://i.pinimg.com/originals/50/83/e0/5083e0a2a7dcaae07c142e8b87036a27.gif" onDragStart={handleDragStart} role="presentation" /></div>,
   ];
   const responsive = {
     0: { items: 1, itemsFit: 'contain' }

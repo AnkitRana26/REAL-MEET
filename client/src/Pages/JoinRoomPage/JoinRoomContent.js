@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { setConnectOnlyWithAudio, setIdentity, setRoomId } from '../../store/action';
 import { getRoomExists } from '../../utils/api';
 import ErrorMessage from './ErrorMessage';
@@ -51,6 +52,20 @@ const JoinRoomContent = (props) => {
         navigate('/room');
     }
 
+    useEffect(()=>{
+        console.log('Hello');
+        toast.warn(errorMessage, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        });
+    },[errorMessage])
+
     return (
         <>
             <JoinRoomInput roomIdValue={roomIdValue} setRoomIdValue={setRoomIdValue} nameValue={nameValue} setNameValue={setNameValue} isRoomHost={isRoomHost} />
@@ -58,8 +73,8 @@ const JoinRoomContent = (props) => {
                 setConnectOnlyWithAudio={setConnectOnlyWithAudio}
                 connectOnlyWithAudio={connectOnlyWithAudio}
             />
-            <ErrorMessage errorMessage={errorMessage} />
             <JoinRoomButton isRoomHost={isRoomHost} handleJoinRoom={handleJoinRoom} />
+            
         </>
     )
 }

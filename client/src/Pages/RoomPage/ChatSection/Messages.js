@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import React from 'react'
 import { connect } from 'react-redux';
 
@@ -21,7 +22,7 @@ const Message = ({ author, content, sameAuthor, messageCreatedByMe }) => {
 
 const Messages = ({messages}) => {
     return (
-        <div className='messages_container'>
+        <Box bgcolor='#121b20' width='100%' className='messages_container'>
             {messages.map((message, index) => {
 
                 const sameAuthor = (index > 0) && message.identity == messages[index - 1].identity?true:false;
@@ -38,7 +39,7 @@ const Messages = ({messages}) => {
                     />
                 )
             })}
-        </div>
+        </Box>
     )
 }
 

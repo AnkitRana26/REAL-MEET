@@ -23,6 +23,7 @@
   font-weight: 700;
   margin-left: 35px;
   margin-top: 80px;
+  
 }
 
 .join_room_inputs_container {
@@ -33,6 +34,7 @@
   width: 100%;
   align-items: center;
   margin-top: 10px;
+  
 }
 
 .error_message_container {
@@ -83,24 +85,36 @@
   margin-left: 35px;
   margin-top: 5px;
   align-items: center;
+  width: 75%;
+  margin: auto;
+  border: none;
+  align-items: center;
 }
 
 .checkbox_connection {
   width: 25px;
   height: 25px;
-  background: #2d8cff;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 8px;
-  backdrop-filter: blur(80px);
+  /* background: #2d8cff; */
+  /* border: 1px solid rgba(255, 255, 255, 0.5); */
+  /* border-radius: 8px; */
+  /* backdrop-filter: blur(80px); */
   display: flex;
   align-items: center;
   justify-content: center;
+  /* box-shadow: 0 0 3px white; */
+  
+
 }
 
 .checkbox_container_paragraph {
   font-weight: 400;
-  font-size: 16px;
+  font-size: 20px;
   margin-left: 15px;
+  color: white;
+
+  /* width: 80%;
+  margin: auto; */
+  /* border: 1px solid white; */
 }
 
 .checkbox_image {
@@ -108,10 +122,22 @@
   max-height: 100%;
 }
 
+
+.checkboxInput{
+  width: 30px;
+  height: 30px;
+  accent-color: green;
+  /* transform: scale(10); */
+}
+
 .join_room_buttons_container {
   display: flex;
-  justify-content: flex-end;
-  width: 100%;
+  justify-content: center;
+  width: 75%;
+  gap: 20px;
+  /* border: 1px solid wheat; */
+  margin: auto;
+  
 }
 
 .join_room_cancel_button {
@@ -153,6 +179,7 @@
   width: 100%;
   align-items: center;
   margin-top: 10px;
+  
   /* border: 1px solid white; */
 }
 

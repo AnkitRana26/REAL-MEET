@@ -6,6 +6,7 @@ import RoomPage from './Pages/RoomPage/RoomPage';
 import './App.css';
 import { connectWithSocketIOServer } from './utils/wss';
 import Navbar from './components/Navbar';
+import WrapperComponent from './components/WrapperComponent';
 
 function App() {
 
@@ -16,11 +17,11 @@ function App() {
 
   return (
     <>
-    <Navbar/>
-    <Routes>
-      <Route path='/join-room' element={<JoinRoomPage/>}/>
+    
+    <Routes >
+      <Route path='/join-room' element={<WrapperComponent><JoinRoomPage/></WrapperComponent>}/>
       <Route path='/room' element={<RoomPage/>}/>
-      <Route path='/' element={<IntroductionPage/>}/>
+      <Route path='/' element={<WrapperComponent><IntroductionPage/></WrapperComponent>}/>
     </Routes>
     </>
   );
