@@ -59,3 +59,21 @@
     background-color: #e5e5e5;
   }
   
+
+
+/* Flickity Styling */
+
+.joinButtons{
+  border-radius: 3px;
+}
+
+
+.joinButtons:hover{
+  background-color: transparent !important;
+  transition: 0.5s !important;
+}
+
+.joinButtons:not(hover){
+  
+  transition: 0.8s !important;
+}

@@ -6,9 +6,6 @@ const twilio = require('twilio');
 require('dotenv').config();
 const data = process.env;
 
-
-
-
 const PORT = process.env.PORT || 5002;
 
 const app = express();

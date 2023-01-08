@@ -1,34 +1,41 @@
+
 import React from 'react'
 
-const Input =({placeholder,value,changeHandler})=>{
+
+
+const Input = ({ placeholder, value, changeHandler }) => {
+
+    
+    
 
     return (
-        <input value={value} onChange={changeHandler} placeholder={placeholder} className='join_room_input' />
+        <input spellCheck="false" value={value} onChange={changeHandler} placeholder={placeholder} className='join_room_input' />
+        
     )
 
 }
 
 
 
-const JoinRoomInput = ({roomIdValue,setRoomIdValue,nameValue,setNameValue,isRoomHost}) => {
+const JoinRoomInput = ({ roomIdValue, setRoomIdValue, nameValue, setNameValue, isRoomHost }) => {
 
-    const handleRoomIdValueChange =(event)=>{
+    const handleRoomIdValueChange = (event) => {
         setRoomIdValue(event.target.value);
     }
-    const handleNameValueChange =(event)=>{
+    const handleNameValueChange = (event) => {
         setNameValue(event.target.value)
     }
 
 
-  return (
-    <div className='join_room_inputs_container'>
+    return (
+        <div className='join_room_inputs_container'>
 
-        {!isRoomHost?<Input placeholder={'Enter Meeting Id'} value={roomIdValue} changeHandler={handleRoomIdValueChange}/>:""}
-        <Input placeholder={'Enter Your Name'} value={nameValue} changeHandler={handleNameValueChange}/>
+            {!isRoomHost ? <Input placeholder={'Enter Meeting Id'} value={roomIdValue} changeHandler={handleRoomIdValueChange} /> : ""}
+            <Input placeholder={'Enter Your Name'} value={nameValue} changeHandler={handleNameValueChange} />
 
 
-    </div>
-  )
+        </div>
+    )
 }
 
 export default JoinRoomInput

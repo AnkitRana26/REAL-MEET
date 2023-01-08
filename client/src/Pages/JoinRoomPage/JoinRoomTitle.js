@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 
 const JoinRoomTitle = ({ isRoomHost }) => {
@@ -7,9 +8,9 @@ const JoinRoomTitle = ({ isRoomHost }) => {
 
     },[isRoomHost])
     return (
-        <p className='join_room_title'>
-            {titleText}
-        </p>
+        
+            // 
+        <Typography fontSize='40px' mt='5%' textAlign='center' color='white' fontFamily={`'Black Ops One', cursive`}>{titleText}</Typography>
     )
 }
 
