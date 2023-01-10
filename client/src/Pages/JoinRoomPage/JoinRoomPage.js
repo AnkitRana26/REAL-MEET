@@ -32,7 +32,7 @@ const JoinRoomPage = (props) => {
     //         
     //   </div>
     // </div>
-    <Box  display='grid' gridTemplateColumns='50% 50%' padding=' 20px 30px'>
+    <Box className='joinRoomPage'  display='grid' gridTemplateColumns='50% 50%' padding=' 20px 30px'>
       <img width='75%' style={{ margin: 'auto' }} src={Meet} />
       <Box>
         <JoinRoomTitle isRoomHost={isRoomHost} />

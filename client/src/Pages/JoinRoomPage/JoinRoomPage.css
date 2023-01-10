@@ -23,7 +23,7 @@
   font-weight: 700;
   margin-left: 35px;
   margin-top: 80px;
-  
+
 }
 
 .join_room_inputs_container {
@@ -34,7 +34,7 @@
   width: 100%;
   align-items: center;
   margin-top: 10px;
-  
+
 }
 
 .error_message_container {
@@ -102,7 +102,7 @@
   align-items: center;
   justify-content: center;
   /* box-shadow: 0 0 3px white; */
-  
+
 
 }
 
@@ -123,7 +123,7 @@
 }
 
 
-.checkboxInput{
+.checkboxInput {
   width: 30px;
   height: 30px;
   accent-color: green;
@@ -137,7 +137,7 @@
   gap: 20px;
   /* border: 1px solid wheat; */
   margin: auto;
-  
+
 }
 
 .join_room_cancel_button {
@@ -179,7 +179,7 @@
   width: 100%;
   align-items: center;
   margin-top: 10px;
-  
+
   /* border: 1px solid white; */
 }
 
@@ -199,18 +199,19 @@
   font-weight: bold;
 }
 
-.join_room_input::placeholder{
+.join_room_input::placeholder {
   padding: 2px;
   font-size: 18px;
   color: rgb(63, 61, 61);
   text-align: center;
 }
 
-.join_room_input:focus::placeholder{
+.join_room_input:focus::placeholder {
   color: transparent;
 }
 
-.join_room_input:focus, .join_room_input:focus{
+.join_room_input:focus,
+.join_room_input:focus {
   outline: none;
 }
 
@@ -222,4 +223,18 @@
 .inputFieldJoinRoom {
   color: white !important;
   z-index: 100;
+}
+
+
+
+
+@media screen and (max-width:1000px) {
+  .joinRoomPage {
+    grid-template-columns: 1fr !important;
+  }
+
+  .joinRoomPage > div:last-child{
+    margin-top: 5%  !important;
+  }
+
 }

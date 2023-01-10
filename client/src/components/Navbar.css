@@ -1,0 +1,8 @@
+.navbar{
+    padding: 30px 0px !important;
+    justify-content: space-between !important;
+}
+
+.navbar > img{
+    width: 25% !important;
+}

@@ -26,7 +26,7 @@ const RoomPage = (props) => {
 
   return (
     <>
-      <Box display='grid' gridTemplateColumns='20% 60% 20%'>
+      <Box className='roomPage' display='grid' gridTemplateColumns='20% 60% 20%'>
         <ParticipantSection />
         <VideoSection />
         <ChatSection />

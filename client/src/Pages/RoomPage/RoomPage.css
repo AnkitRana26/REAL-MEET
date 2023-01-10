@@ -523,3 +523,36 @@ video {
   font-size: 20px;
 
 }
+
+
+@media screen and (max-width:1000px) {
+  .roomPage{
+    grid-template-columns: 1fr !important;
+    height: 100vh !important;
+  }
+  .roomPage >div:first-child{
+    display: none;
+  }
+  .roomPage >div:nth-child(3){
+    display: none;
+  }
+  .room_label{
+    width: 100% !important;
+    left: 0% !important;
+  }
+
+  #videoDisplay{
+    padding-top: 10%;
+  }
+
+  #videoDisplay > div{
+    width: 90%;
+  }
+  .video_button_end{
+    width: 150px !important;
+  }
+
+  .videoButtons{
+    width: 100% !important;
+  }
+}

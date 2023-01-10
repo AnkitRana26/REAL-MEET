@@ -4,7 +4,7 @@ import { store } from '../store/store';
 import * as webRTCHandler from './webRTCHandler';
 
 
-const SERVER = 'http://localhost:5002';
+const SERVER = 'https://real-meet-server.onrender.com/';
 
 let socket = null;
 

@@ -77,3 +77,39 @@
   
   transition: 0.8s !important;
 }
+
+
+
+
+@media screen and (max-width:1000px) {
+  .homePageMainContainer >div:last-child{
+    display: none !important;
+  }
+
+  .homePageMainContainer {
+    grid-template-columns: 1fr !important;
+  }
+
+  .homePageMainContainer >div:first-child >h3{
+    font-size: larger;
+    margin-top: 5% !important;
+  }
+
+  .homePageMainContainer >div:first-child >img{
+    width: 80% !important;
+  }
+
+  .buttonClassHomePage{
+    display: grid !important;
+    margin-top: 10% !important;
+  }
+
+  .buttonClassHomePage > button{
+    width: 100% !important;
+  }
+
+  .meetingImage{
+    width: 80% !important;
+  }
+
+}

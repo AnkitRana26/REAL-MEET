@@ -22,7 +22,7 @@ const Message = ({ author, content, sameAuthor, messageCreatedByMe }) => {
 
 const Messages = ({messages}) => {
     return (
-        <Box bgcolor='#121b20' width='100%' className='messages_container'>
+        <Box bgcolor='#121b20' overflow='scroll' height='80vh'  width='100%' className='messages_container'>
             {messages.map((message, index) => {
 
                 const sameAuthor = (index > 0) && message.identity == messages[index - 1].identity?true:false;
