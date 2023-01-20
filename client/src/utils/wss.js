@@ -4,7 +4,7 @@ import { store } from '../store/store';
 import * as webRTCHandler from './webRTCHandler';
 
 
-const SERVER = 'https://real-meet-server-6fw7q4uwy-ankitrana26.vercel.app/';
+const SERVER = 'https://realmeet.up.railway.app/';
 
 let socket = null;
 
