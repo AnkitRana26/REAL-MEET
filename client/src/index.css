@@ -41,3 +41,19 @@ code {
   left: 0%;
   z-index: 600;
 }
+
+
+.toaster{
+  color: #051937 !important;
+}
+
+.Toastify{
+  background-color: transparent !important;
+}
+
+.Toastify__toast-body{
+  background-color: transparent !important;
+}
+.Toastify__toast-body div{
+  background-color: transparent !important;
+}

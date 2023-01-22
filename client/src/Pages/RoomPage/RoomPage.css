@@ -138,7 +138,7 @@
   justify-content: center;
   align-items: center;
   position: absolute;
-  z-index: 2;
+  z-index: 1000;
 }
 
 .loader {
@@ -382,7 +382,7 @@ video {
 .room_label {
   position: absolute;
   display: flex;
-  width: 30%;
+  width: 35%;
   left: 35%;
   justify-content: center;
   z-index: 200;
@@ -394,9 +394,19 @@ video {
   color: white !important;
   margin-top: 0;
   padding: 5px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
   background-color: #121920;
 
   border-radius: 0px 0px 15px 15px;
+}
+
+.room_label_paragraph >span{
+  padding: 3px;
+  border-radius: 2px;
+  cursor: pointer;
 }
 
 /* .video_track_container:first-child:nth-last-child(1) {
@@ -524,6 +534,15 @@ video {
 
 }
 
+.roomIdCopyToClipboard{
+  background-color: #1b2530;
+}
+
+
+
+.Toastify__toast-container{
+  background-color: transparent !important;
+}
 
 @media screen and (max-width:1000px) {
   .roomPage{
